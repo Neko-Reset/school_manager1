@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\RequestForm;
+use Illuminate\Support\Facades\Auth;
 
-class CourseController extends Controller
+class RequestFormController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::select('id', 'title')->get();
-        return view('courses.index', compact('courses'));
+        //
     }
 
     /**
@@ -23,9 +23,18 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('courses.create');
+        // $all = $request->all();
+        // dump($all);
+        // return view('requestforms.create', compact(''));
+    }
+
+    
+    public function create_booking(Request $request)
+    {
+        $all = $request->all();
+        return view('requestforms.create', compact('all'));
     }
 
     /**
@@ -36,11 +45,29 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        Course::create([
-            'title' => $request->title
+
+        $booking_id = RequestForm::create([
+            'coupon_price' => 1000,
+            'user_id' => Auth::id(),
+            'course_id' => $request->course_id,
+            'price' => $request->price,
+            'coupon' => $request->coupon,
+            'total_price' => $request->total_price
         ]);
-        // リダイレクトの書き方 Laravel9からこの記述フォルダ名/ファイル名
-        return to_route('courses.index');
+        return view('requestforms.index');
+    }
+
+    public function payment(Request $request)
+    {
+        $all = $request->all();
+        $secret ="sk_test_fc3a7d8d1819b7f69caf11dd";
+        \Payjp\Payjp::setApiKey($secret);
+        $description = 'テスト';
+        //ユーザーの作成
+        $customer = \Payjp\Customer::create(array('card' => $all['payjp-token'], 'description' => $description));
+        //チャージの作成
+        $charge = \Payjp\Charge::create(array('customer' => $customer->id, 'amount' => 5000, 'currency' => 'jpy', 'description' => $description));
+        dump($charge);
     }
 
     /**
@@ -51,12 +78,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::find($id);
-        if ( $course->coupon === 777 ) {
-            $course->total_price = $course->price - 1000;
-        }
-
-        return view('courses.show', compact('course'));
+        //
     }
 
     /**

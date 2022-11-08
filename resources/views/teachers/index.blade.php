@@ -5,5 +5,5 @@ index<br>
     {{ $teacher->id }}
     {{ $teacher->name }}
     {{ $teacher->comment }}
-    <a  href="{{ route('teachers.show', [ 'teacher' => $teacher->id ]) }}">詳細を見る</a>
+    <a  href="{{ route('teachers.show', [ 'teacher' => $teacher->id ]) }}">詳細を見る</a><br>
 @endforeach

@@ -3,5 +3,5 @@
 @foreach ( $courses as $course )
     {{ $course->id }}
     {{ $course->title }}
-    <a  href="{{ route('courses.show', [ 'course' => $course->id ]) }}">詳細を見る</a>
+    <a  href="{{ route('courses.show', [ 'course' => $course->id ]) }}">詳細を見る</a><br>
 @endforeach
