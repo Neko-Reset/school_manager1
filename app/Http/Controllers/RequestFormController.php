@@ -60,7 +60,7 @@ class RequestFormController extends Controller
     public function payment(Request $request)
     {
         $all = $request->all();
-        $secret ="sk_test_fc3a7d8d1819b7f69caf11dd";
+        $secret ="sk_test_fc3a7d8d1819b7f69caf11dd"; // テスト秘密の鍵
         \Payjp\Payjp::setApiKey($secret);
         $description = 'テスト';
         //ユーザーの作成
