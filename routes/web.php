@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CourseController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,16 +21,8 @@ Route::get('/', function () {
 });
 
 Route::resource('teachers', TeacherController::class);
+Route::resource('courses', CourseController::class);
 
-// Route::prefix('teachers') // 頭にteacherをつける
-// ->controller(TeacherController::class) // コントローラ指定(laravel9から)
-// ->name('teachers.') // グループ化
-// ->group(function(){
-//     Route::get('/', 'index')->name('index'); // 名前つきルート
-//     Route::get('/create', 'create')->name('create');
-//     Route::post('/', 'store')->name('store');
-//     Route::get('/{id}', 'show')->name('show');
-//     Route::get('/{id}/edit', 'edit')->name('edit');
-//     Route::post('/{id}', 'update')->name('update');
-//     Route::post('/{id}/destroy', 'destroy')->name('destroy');
-// });
+Route::get('admin', function () {
+    return view('admin.index');
+});
